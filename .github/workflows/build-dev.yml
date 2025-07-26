@@ -40,6 +40,10 @@ jobs:
           large-packages: true
           docker-images: true
           swap-storage: true
+
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
       - name: Checkout code
         uses: actions/checkout@v4
 
