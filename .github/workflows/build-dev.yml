@@ -55,7 +55,7 @@ jobs:
           find TMessagesProj/build/outputs/bundle -name "*.aab" -type f || echo "No Bundle files found"
 
       - name: Upload APK artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: apk-files-${{ github.sha }}
           path: |
@@ -63,7 +63,7 @@ jobs:
           retention-days: 7
 
       - name: Upload Bundle artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bundle-files-${{ github.sha }}
           path: |
