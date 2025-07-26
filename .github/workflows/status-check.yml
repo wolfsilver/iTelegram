@@ -57,4 +57,10 @@ jobs:
       - name: Validate Dockerfile syntax
         run: |
           echo "Validating Dockerfile syntax..."
-          docker build --dry-run -t test-build . > /dev/null 2>&1 && echo "✅ Dockerfile syntax valid" || (echo "❌ Dockerfile syntax invalid" && exit 1)
+          # Check basic Dockerfile syntax using hadolint or docker build
+          if command -v hadolint > /dev/null 2>&1; then
+            hadolint Dockerfile && echo "✅ Dockerfile syntax valid (hadolint)"
+          else
+            # Fallback: check if Docker can parse the Dockerfile
+            docker build --quiet --no-cache -t test-syntax-check . > /dev/null 2>&1 && echo "✅ Dockerfile syntax valid" || (echo "❌ Dockerfile has issues" && exit 1)
+          fi
