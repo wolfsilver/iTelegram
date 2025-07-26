@@ -1,0 +1,60 @@
+name: Build Status
+
+on:
+  push:
+    branches: [ master, build ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check Docker configuration
+        run: |
+          echo "Checking Dockerfile..."
+          if [ -f "Dockerfile" ]; then
+            echo "✅ Dockerfile exists"
+          else
+            echo "❌ Dockerfile missing"
+            exit 1
+          fi
+
+      - name: Check Gradle configuration
+        run: |
+          echo "Checking Gradle configuration..."
+          if [ -f "build.gradle" ]; then
+            echo "✅ build.gradle exists"
+          else
+            echo "❌ build.gradle missing"
+            exit 1
+          fi
+
+          if [ -f "settings.gradle" ]; then
+            echo "✅ settings.gradle exists"
+          else
+            echo "❌ settings.gradle missing"
+            exit 1
+          fi
+
+      - name: Check project structure
+        run: |
+          echo "Checking project structure..."
+          required_dirs=("TMessagesProj" "TMessagesProj_App" "TMessagesProj_AppStandalone" "TMessagesProj_AppHuawei")
+
+          for dir in "${required_dirs[@]}"; do
+            if [ -d "$dir" ]; then
+              echo "✅ $dir directory exists"
+            else
+              echo "❌ $dir directory missing"
+              exit 1
+            fi
+          done
+
+      - name: Validate Dockerfile syntax
+        run: |
+          echo "Validating Dockerfile syntax..."
+          docker build --dry-run -t test-build . > /dev/null 2>&1 && echo "✅ Dockerfile syntax valid" || (echo "❌ Dockerfile syntax invalid" && exit 1)

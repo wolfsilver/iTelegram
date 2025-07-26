@@ -1,5 +1,12 @@
 ## Telegram messenger for Android
 
+[![Build Status](https://github.com/wolfsilver/iTelegram/workflows/Build%20Status/badge.svg)](https://github.com/wolfsilver/iTelegram/actions)
+[![Development Build](https://github.com/wolfsilver/iTelegram/workflows/Build%20APK%20(Development)/badge.svg)](https://github.com/wolfsilver/iTelegram/actions)
+[![Release Build](https://github.com/wolfsilver/iTelegram/workflows/Build%20and%20Release%20APK/badge.svg)](https://github.com/wolfsilver/iTelegram/releases)
+
+[Telegram](https://telegram.org) is a messaging app with a focus on speed and security. It's superfast, simple and free.
+This repo contains the official source code for [Telegram App for Android](https://play.google.com/store/apps/details?id=org.telegram.messenger).elegram messenger for Android
+
 [Telegram](https://telegram.org) is a messaging app with a focus on speed and security. It’s superfast, simple and free.
 This repo contains the official source code for [Telegram App for Android](https://play.google.com/store/apps/details?id=org.telegram.messenger).
 
@@ -33,6 +40,42 @@ You will require Android Studio 3.4, Android NDK rev. 20 and Android SDK 8.1
 5. Open the project in the Studio (note that it should be opened, NOT imported).
 6. Fill out values in TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java – there’s a link for each of the variables showing where and which data to obtain.
 7. You are ready to compile Telegram.
+
+## Automated Builds with GitHub Actions
+
+This repository includes GitHub Actions workflows for automated building and releasing:
+
+### 🚀 Release Builds
+- **Trigger**: Push tags with `release-*` prefix or manual dispatch
+- **Output**: Creates pre-release on GitHub with APKs and Bundles
+- **Files**: Standalone, Play Store, and Huawei versions + bundles
+- **Verification**: Includes SHA256 checksums for build verification
+
+### 🔧 Development Builds  
+- **Trigger**: Push to main branches or pull requests
+- **Output**: Artifacts uploaded for 7 days
+- **Purpose**: Quick validation during development
+
+### Usage
+```bash
+# Create a release build
+git tag release-9.3.3_3026
+git push origin release-9.3.3_3026
+
+# Or manually trigger from GitHub Actions page
+```
+
+For detailed instructions, see [GitHub Actions README](.github/README.md).
+
+### Build Verification
+Use the included verification script to check reproducible builds:
+```bash
+./verify-build.sh release-9.3.3_3026 downloaded-apk-file.apk
+```
+
+## Reproducible Builds
+
+This project supports [reproducible builds](https://core.telegram.org/reproducible-builds). The GitHub Actions workflows generate the same APKs as the official Telegram builds when using the same source code version.
 
 ### Localization
 
